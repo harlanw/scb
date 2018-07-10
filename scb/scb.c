@@ -1,3 +1,10 @@
+//
+// SCB - Simple Console Buffer
+//
+// Harlan J. Waldrop <harlan@ieee.org>
+// 
+// https://web.engr.oregonstate.edu/~waldroha/post/teaching/virtual-console-buffering/
+//
 #include "scb.h"
 
 #include <ctype.h>
@@ -17,6 +24,17 @@
 // Digital VT1000:
 // 	https://vt100.net/docs/vt100-ug/chapter3.html
 // 	https://vt100.net/docs/vt510-rm/DECTCEM.html
+//
+// 	ESC = \x1B = 27
+//
+// 	ESC [ H -- Cursor Position
+// 	https://vt100.net/docs/vt100-ug/chapter3.html#CUP
+//
+// 	ESC [ J -- Erase In Display
+// 	https://vt100.net/docs/vt100-ug/chapter3.html#ED
+//
+// 	ESC [ K -- Erase In Line
+// 	https://vt100.net/docs/vt100-ug/chapter3.html#EL
 
 #define SET_FLAG(var,b) ((var) |= b)
 #define CLEAR_FLAG(var,b) ((var) &= (~(b)))
@@ -155,6 +173,7 @@ scb_refresh(void)
 {
 	(void) write(STDOUT_FILENO, "\x1b[H", 3);
 
+	// Restore cursor state later
 	uint8_t cursor_state = FLAG_IS_SET(term.flags, SCB_FLAG_CURSOR);
 	scb_cursor(0);
 
@@ -181,7 +200,7 @@ scb_refresh(void)
 	term.flags = 0;
 	term.rptr = term.cptr = 0;
 
-	scb_cursor(cursor_state); // Restore cursor state
+	scb_cursor(cursor_state);
 }
 
 size_t
