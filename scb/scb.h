@@ -23,15 +23,15 @@ scb_cleanup(void);
 void
 scb_refresh(void);
 
-// Sets cursor visibility to @on
-void
-scb_cursor(int on);
-
 // In-order printing to terminal buffer
 size_t
 scb_printf(const char *fmt, ...);
 
 /* ---------- GET/SET FUNCTIONS ----------- */
+
+// Sets cursor visibility to @on
+void
+scb_cursor(int on);
 
 // Non-blocking character read from stdin
 char
