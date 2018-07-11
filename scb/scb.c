@@ -36,7 +36,7 @@
 // 	ESC [ K -- Erase In Line
 // 	https://vt100.net/docs/vt100-ug/chapter3.html#EL
 
-#define SET_FLAG(var,b) ((var) |= b)
+#define SET_FLAG(var,b) ((var) |= (b))
 #define CLEAR_FLAG(var,b) ((var) &= (~(b)))
 #define FLAG_IS_SET(var,b) (((var) & (b)) == (b))
 
